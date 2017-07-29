@@ -9,6 +9,6 @@ public class PlayerPunch : MonoBehaviour {
 	void Punch(){
 		GameObject punchClone;
 		punchClone = Instantiate (testPunch, new Vector3 (transform.position.x + GetComponent<Collider2D> ().bounds.extents.x, transform.position.y), Quaternion.identity) as GameObject;
-		punchClone.transform.parent = this.transform;
+		punchClone.GetComponent<PunchController> ().angle = Vector2.right;
 	}
 }
