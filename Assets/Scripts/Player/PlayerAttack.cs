@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class PlayerAttack : PlayerState {
 
-	PlayerPunch punch;
+	public GameObject testPunch;
 
-	protected override void Awake(){
-		punch = GetComponent<PlayerPunch> ();
+	public override void HandleInput (){
+		if (Input.GetButtonDown ("Punch")) {
+			Punch ();
+		}
 	}
-	public override void HandleInput (){}
 	public override void Update(){
 		base.Update ();
 	}
 
 	void Punch(){
-		punch.enabled = true;
+		GameObject punchClone;
+		punchClone = Instantiate (testPunch, new Vector3 (transform.position.x - 1.05f, transform.position.y), Quaternion.identity) as GameObject;
+		PunchController controller = punchClone.GetComponent<PunchController> ();
+		controller.angle = Vector2.left;
+		controller.setPlayer (player.transform);
+		Debug.Log (controller.player.name);
 	}
 }
