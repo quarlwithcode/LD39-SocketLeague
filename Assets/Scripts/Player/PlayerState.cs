@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour{
 
+	public float maxSpeed = 20;
 	protected PlayerManager player;
 
 	protected virtual void Awake(){
@@ -20,7 +21,8 @@ public class PlayerState : MonoBehaviour{
 		if (player.movement.isGrounded ()) {
 			player.movement.Move ();
 		} else {
-			player.movement.Move (.25F);
+			if(Mathf.Abs(player.rig2D.velocity.x) < maxSpeed)
+				player.movement.Move (.015F);
 		}
 
 
@@ -34,5 +36,11 @@ public class PlayerState : MonoBehaviour{
 	public virtual void LateUpdate(){
 		if(player.movement.isGrounded())
 			player.movement.ResetVelocity ();
+	}
+
+	public virtual void OnCollisionEnter(Collision col){
+		if (col.gameObject.tag == "Ground") {
+			player.movement.ResetJumps ();
+		}
 	}
 }

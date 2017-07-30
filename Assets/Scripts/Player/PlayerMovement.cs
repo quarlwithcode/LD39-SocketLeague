@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float jumpForce = 10;
 
 	public LayerMask groundLayer;
-
+	public int jumps = 1;
 
 	PlayerManager player;
 	private float distToGround;
@@ -46,16 +46,26 @@ public class PlayerMovement : MonoBehaviour {
 
 	public void Jump(){
 		
-		if (isGrounded ()) {
+		if (jumps > 0) {
 			player.rig2D.AddForce (Vector2.up * jumpForce, ForceMode2D.Impulse);
 		}
 	}
 
 	public void Jump(float jumpMult){
 
-		if (isGrounded ()) {
-			player.rig2D.AddForce (Vector2.up * jumpForce * jumpMult, ForceMode2D.Impulse);
+		if (jumps > 0) {
+			if (player.rig2D.velocity.y < 0) {
+				player.rig2D.velocity = new Vector2 (player.rig2D.velocity.x, 0);
+				player.rig2D.AddForce (Vector2.up * jumpForce * jumpMult, ForceMode2D.Impulse);
+			} else {
+				player.rig2D.AddForce (Vector2.up * jumpForce * jumpMult, ForceMode2D.Impulse);
+			}
+
 		}
+	}
+
+	public void ResetJumps(){
+		jumps = 1;
 	}
 
 	public bool isGrounded(){
