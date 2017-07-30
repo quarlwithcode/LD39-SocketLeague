@@ -13,4 +13,16 @@ public class PlayerInput : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public bool HitPunch(){
+		return Input.GetButtonDown ("Punch");
+	}
+
+	public bool HitShield(){
+		return Input.GetButtonDown ("Shield");
+	}
+
+	public bool HitGrab(){
+		return Input.GetButtonDown ("Grab");
+	}
 }

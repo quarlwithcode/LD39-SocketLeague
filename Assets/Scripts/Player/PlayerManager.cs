@@ -6,13 +6,17 @@ public class PlayerManager : MonoBehaviour {
 
 	[SerializeField]
 	private PlayerState currentState;
+	public GameObject target;
 	[HideInInspector]public Rigidbody2D rig2D;
 	[HideInInspector]public PlayerMovement movement;
+	[HideInInspector]public PlayerInput input;
+
 
 	void Awake(){
-		currentState = GetComponent<PlayerAttack> ();
+		currentState = GetComponent<PlayerRunning> ();
 		rig2D = GetComponent<Rigidbody2D> ();
 		movement = GetComponent<PlayerMovement> ();
+		input = GetComponent<PlayerInput> ();
 	}
 
 	// Use this for initialization
@@ -26,7 +30,10 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void setState(PlayerState state){
+		currentState.enabled = false;
 		currentState = state;
+		currentState.enabled = true;
+		currentState.Action ();
 	}
 }
 

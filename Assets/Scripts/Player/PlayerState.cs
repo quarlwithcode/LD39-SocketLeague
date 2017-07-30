@@ -15,6 +15,7 @@ public class PlayerState : MonoBehaviour{
 			player = GetComponent<PlayerManager> ();
 	}
 
+	public virtual void Action (){}
 	public virtual void HandleInput (){}
 	public virtual void Update(){
 		HandleInput ();
