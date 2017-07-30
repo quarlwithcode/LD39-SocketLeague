@@ -8,6 +8,7 @@ public class PlayerShield : PlayerState {
 	private GameObject shieldClone;
 
 	public override void HandleInput (){
+		base.HandleInput ();
 		if(player.input.HitGrab()){
 			player.setState (GetComponent<PlayerGrab>());
 		}

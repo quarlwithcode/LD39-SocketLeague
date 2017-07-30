@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
 	public float speed;
-	public float maxSpeed = 5;
 	public float jumpForce = 10;
 
 	public LayerMask groundLayer;
 
+
 	PlayerManager player;
 	private float distToGround;
+
 
 	void Awake(){
 		player = GetComponent<PlayerManager> ();
@@ -20,44 +21,44 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void Update(){
-		if (Input.GetButtonDown("Jump")) {
-			if (isGrounded ()) {
-				Jump ();
-			}
-		}
+		
 	}
 
 	void FixedUpdate(){
-		Move ();
+		
+	}
+
+	void LateUpdate(){
+		
 	}
 
 	public void Move(){
-		player.rig2D.AddForce(Vector2.right*speed*Input.GetAxis("Horizontal"));
-
-		CheckMaxSpeed ();
+		player.rig2D.AddForce(Vector2.right*speed*Input.GetAxis(player.playerStr+"Horizontal"));
 	}
 
-	void Jump(){
+	public void Move(float speedMult){
+		player.rig2D.AddForce(Vector2.right*speed*speedMult*Input.GetAxis(player.playerStr+"Horizontal"));
+	}
+
+	public void ResetVelocity(){
+		player.rig2D.velocity = new Vector2(0, player.rig2D.velocity.y);
+	}
+
+	public void Jump(){
 		
-		player.rig2D.AddForce (Vector2.up*jumpForce, ForceMode2D.Impulse);
-	}
-
-	void CheckMaxSpeed(){
-		if (player.rig2D.velocity.x >= maxSpeed) {
-			player.rig2D.velocity = new Vector2 (maxSpeed, player.rig2D.velocity.y);
-		}
-		if (player.rig2D.velocity.x <= -maxSpeed) {
-			player.rig2D.velocity = new Vector2 (-maxSpeed, player.rig2D.velocity.y);
-		}
-		if (player.rig2D.velocity.y >= maxSpeed) {
-			player.rig2D.velocity = new Vector2 (player.rig2D.velocity.x, maxSpeed);
-		}
-		if (player.rig2D.velocity.y <= -maxSpeed) {
-			player.rig2D.velocity = new Vector2 (player.rig2D.velocity.x, -maxSpeed);
+		if (isGrounded ()) {
+			player.rig2D.AddForce (Vector2.up * jumpForce, ForceMode2D.Impulse);
 		}
 	}
 
-	bool isGrounded(){
+	public void Jump(float jumpMult){
+
+		if (isGrounded ()) {
+			player.rig2D.AddForce (Vector2.up * jumpForce * jumpMult, ForceMode2D.Impulse);
+		}
+	}
+
+	public bool isGrounded(){
 		return Physics2D.Raycast (transform.position, -Vector3.up, 0.6f, groundLayer.value, 0f);
 	}
 }

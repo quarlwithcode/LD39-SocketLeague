@@ -16,8 +16,23 @@ public class PlayerState : MonoBehaviour{
 	}
 
 	public virtual void Action (){}
-	public virtual void HandleInput (){}
+	public virtual void HandleInput (){
+		if (player.movement.isGrounded ()) {
+			player.movement.Move ();
+		} else {
+			player.movement.Move (.25F);
+		}
+
+
+		if (player.input.HitJump()) {
+			player.movement.Jump ();
+		}
+	}
 	public virtual void Update(){
 		HandleInput ();
+	}
+	public virtual void LateUpdate(){
+		if(player.movement.isGrounded())
+			player.movement.ResetVelocity ();
 	}
 }

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour {
 
+	PlayerManager player;
+
 	// Use this for initialization
-	void Start () {
-		
+	void Awake () {
+		player = GetComponent<PlayerManager> ();
 	}
 	
 	// Update is called once per frame
@@ -15,14 +17,18 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	public bool HitPunch(){
-		return Input.GetButtonDown ("Punch");
+		return Input.GetButtonDown (player.playerStr+"Punch");
 	}
 
 	public bool HitShield(){
-		return Input.GetButtonDown ("Shield");
+		return Input.GetButtonDown (player.playerStr+"Shield");
 	}
 
 	public bool HitGrab(){
-		return Input.GetButtonDown ("Grab");
+		return Input.GetButtonDown (player.playerStr+"Grab");
+	}
+
+	public bool HitJump(){
+		return Input.GetButtonDown (player.playerStr+"Jump");
 	}
 }

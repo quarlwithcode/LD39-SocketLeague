@@ -9,23 +9,23 @@ public class PunchController : MonoBehaviour {
 	public Vector2 angle;
 	public Transform player;
 
-	bool endReached = false;
+	protected bool endReached = false;
 
-	private Rigidbody2D rig2D;
-	private Vector2 endPoint;
+	protected Rigidbody2D rig2D;
+	protected Vector2 endPoint;
 
-	void Awake(){
+	protected virtual void Awake(){
 		rig2D = GetComponent<Rigidbody2D> ();
 
 	}
 
 	// Use this for initialization
-	void Start () {
+	protected virtual void Start () {
 		rig2D.AddForce (angle*punchForce, ForceMode2D.Impulse);
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	protected virtual void FixedUpdate () {
 		if (Vector2.Distance (this.transform.position, player.position) > punchDistance) {
 			endReached = true;
 			endPoint = (Vector2)transform.position;
@@ -39,10 +39,14 @@ public class PunchController : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.name == player.name) {
-			
-			Destroy (gameObject);
+	protected virtual void OnTriggerEnter2D(Collider2D other){
+
+		if (other.gameObject.tag == "Player") {
+			if (other.gameObject.name == player.name) {
+				Destroy (gameObject);
+			}
+		} else {
+			endReached = true;
 		}
 	}
 
